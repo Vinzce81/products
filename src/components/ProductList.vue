@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import {useProductsStore} from "@/stores/products.store.ts";
-import {storeToRefs} from "pinia";
-import {onMounted} from "vue";
 import ProductCard from "@/components/ProductCard.vue";
-
-const productStore = useProductsStore()
-const { items, loading, error, total } = storeToRefs(productStore)
-
-onMounted(() => {productStore.fetchProducts()})
+import type {Product} from "@/types/product.ts";
+defineProps<{
+  items : Product[],
+  loading: boolean,
+  error: Error|null,
+  total: number
+}>()
 </script>
 
 <template>

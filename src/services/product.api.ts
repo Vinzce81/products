@@ -14,8 +14,15 @@ export async function getProducts(filters : ProductFilters = {}) {
         throw new Error('Failed to fetch products')
     }
 
-    const resList =await  res.json()
-    return resList.products
+    const { products } = await res.json()
+    const productsArray = products as Product[]
+    return productsArray.map(product => ({
+            id: product.id,
+            title: product.title,
+            category: product.category,
+            price: product.price,
+            stock: product.stock
+    }))
 }
 
 export async function getProductById(id: number): Promise<Product| null> {
@@ -25,5 +32,12 @@ export async function getProductById(id: number): Promise<Product| null> {
         throw new Error('Failed to fetch products')
     }
 
-    return res.json()
+    const response = await res.json()
+    return {
+        id: response.id,
+        title: response.title,
+        category: response.category,
+        price: response.price,
+        stock: response.stock,
+    }
 }

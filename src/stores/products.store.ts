@@ -1,11 +1,11 @@
-import { ref, computed } from 'vue'
+import {ref, computed, type Ref} from 'vue'
 import { defineStore } from 'pinia'
 import {getProductById, getProducts} from "@/services/product.api.ts";
 import type {Product, ProductFilters} from "@/types/product.ts";
 
 export const useProductsStore = defineStore('products', () => {
   const items = ref<Product[]>([])
-  const selectedProduct = ref<Product | null>(null)
+  const selectedProduct : Ref<Product | null> = ref(null)
   const loading = ref(false)
   const error = ref<Error | null>(null)
 

@@ -6,7 +6,7 @@ import ProductFilters from '@/components/ProductFilters.vue'
 import ProductList from '@/components/ProductList.vue'
 
 const productsStore = useProductsStore()
-const { items, loading, error } = storeToRefs(productsStore)
+const { items, loading, error, total } = storeToRefs(productsStore)
 
 const search = ref('')
 const category = ref('All')
@@ -37,6 +37,6 @@ watch(
 
     <p v-if="loading">Chargement...</p>
     <p v-else-if="error">{{ error }}</p>
-    <ProductList v-else :items="items" />
+    <ProductList v-else :items="items" :loading="loading" :total="total" :error="error"/>
   </section>
 </template>
