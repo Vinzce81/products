@@ -1,7 +1,11 @@
 import type {Product, ProductFilters} from "@/types/product.ts";
 
 export async function getProducts(filters : ProductFilters = {}) {
-    const params = new URLSearchParams()
+    /** THIS IS WHAT WOULD BE DONE WITH A REAL API - dummyjson.com doesn't support filter -> simulated afterwards
+     *
+
+     const params = new URLSearchParams()
+
 
     if(filters.search) params.set('title', filters.search)
     if(filters.category && filters.category !== 'All') {
@@ -10,13 +14,20 @@ export async function getProducts(filters : ProductFilters = {}) {
 
     const res = await fetch(`https://dummyjson.com/products?${params.toString()}`)
 
+    */
+
+    const res = await fetch(`https://dummyjson.com/products`)
+
     if(!res.ok) {
         throw new Error('Failed to fetch products')
     }
 
     const { products } = await res.json()
     const productsArray = products as Product[]
-    return productsArray.map(product => ({
+    return productsArray
+        .filter(product => filters.category == null || filters.category === 'All' || product.category === filters.category) //this should be done in the call with a real API
+        .filter(product => filters.search == null || product.title.toLowerCase().includes(filters.search.toLowerCase()))
+        .map(product => ({
             id: product.id,
             title: product.title,
             category: product.category,
